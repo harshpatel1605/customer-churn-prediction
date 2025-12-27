@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Prediction</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="background-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <header>
+            <div class="icon-box">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <h1>Customer Churn Prediction</h1>
+            <p class="subtitle">Enter customer details to analyze retention risk</p>
+        </header>
+
+        <form action="/predict" method="post">
+            <div class="form-section">
+                <h3><i class="fas fa-user-circle"></i> Account Information</h3>
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label>Tenure (Months)</label>
+                        <input type="number" name="tenure" placeholder="e.g. 12" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Monthly Charges ($)</label>
+                        <input type="number" step="any" name="MonthlyCharges" placeholder="e.g. 59.99" required>
+                    </div>
+                </div>
+
+                <div class="grid-3">
+                    <select name="Contract" required>
+                        <option value="" disabled selected>Contract Type</option>
+                        <option value="Month-to-month">Month-to-month</option>                        <option value="One year">One year</option>
+                        <option value="Two year">Two year</option>
+                    </select>
+
+                    <select name="InternetService" required>
+                        <option value="" disabled selected>Internet Service</option>
+                        <option value="DSL">DSL</option>
+                        <option value="Fiber optic">Fiber optic</option>
+                        <option value="No">No</option>                    </select>
+
+                    <select name="PaymentMethod" required>
+                        <option value="" disabled selected>Payment Method</option>
+                        <option value="Electronic check">Electronic Check</option>
+                        <option value="Credit card (automatic)">Credit Card (Auto)</option>
+                        <option value="Mailed check">Mailed Check</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3><i class="fas fa-concierge-bell"></i> Services & Demographics</h3>
+                <div class="toggle-grid">
+                    <div class="toggle-item">
+                        <label>Senior Citizen</label>
+                        <select name="SeniorCitizen"><option value="0">No</option><option value="1">Yes</option></select>
+                    </div>
+                    <div class="toggle-item">
+                        <label>Partner</label>
+                        <select name="Partner"><option value="0">No</option><option value="1">Yes</option></select>
+                    </div>
+                    <div class="toggle-item">                        <label>Dependents</label>
+                        <select name="Dependents"><option value="0">No</option><option value="1">Yes</option></select>
+                    </div>
+                    <div class="toggle-item">
+                        <label>Phone Service</label>
+                        <select name="PhoneService"><option value="0">No</option><option value="1">Yes</option></select>
+                    </div>
+                    <div class="toggle-item">
+                        <label>Multiple Lines</label>
+                        <select name="MultipleLines"><option value="0">No</option><option value="1">Yes</option></select>
+                    </div>
+                    <div class="toggle-item">
+                        <label>Paperless Billing</label>
+                        <select name="PaperlessBilling"><option value="0">No</option><option value="1">Yes</option></select>
+                    </div>
+                    <div class="toggle-item">
+                        <label>Tech Support</label>
+                        <select name="TechSupport"><option value="0">No</option><option value="1">Yes</option></select>
+                    </div>
+                    <div class="toggle-item">
+                        <label>Online Security</label>
+                        <select name="OnlineSecurity"><option value="0">No</option><option value="1">Yes</option></select>
+                    </div>
+                    <div class="toggle-item">
+                        <label>Online Backup</label>
+                        <select name="OnlineBackup"><option value="0">No</option><option value="1">Yes</option></select>
+                    </div>
+                    <div class="toggle-item">
+                        <label>Device Protection</label>
+                        <select name="DeviceProtection"><option value="0">No</option><option value="1">Yes</option></select>
+                    </div>
+                    <div class="toggle-item">
+                        <label>Streaming TV</label>
+                        <select name="StreamingTV"><option value="0">No</option><option value="1">Yes</option></select>                    </div>
+                    <div class="toggle-item">
+                        <label>Streaming Movies</label>
+                        <select name="StreamingMovies"><option value="0">No</option><option value="1">Yes</option></select>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">Analyze Customer <i class="fas fa-arrow-right"></i></button>
+        </form>        {% if prediction %}
+            <div class="result-container animate-up">
+                <div class="result-badge">Prediction Result</div>
+                <div class="result-text">{{ prediction }}</div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>
