@@ -173,6 +173,33 @@ input:focus, select:focus {
     margin-bottom: 5px;
 }
 
+.credits {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--glass-border);
+    text-align: center;
+}
+
+.credits p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+}
+
+.credits i {
+    color: #ef4444; /* Heart color */
+    margin: 0 4px;
+    font-size: 0.75rem;
+}
+
+.credits span {
+    color: var(--text-main);
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.credits span:hover {    color: var(--primary);
+}
 .result-text { font-size: 1.2rem; font-weight: 600; }
 
 /* Responsive */
