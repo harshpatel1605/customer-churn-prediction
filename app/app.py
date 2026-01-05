@@ -3,9 +3,10 @@ import joblib
 import numpy as np
 import os
 import sys
+import json
 
 # -------------------------------------------------
-# Path setup (so src/ is accessible)
+# Path setup
 # -------------------------------------------------
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
@@ -19,7 +20,14 @@ MODEL_PATH = os.path.join(BASE_DIR, "model", "churn_model.pkl")
 model = joblib.load(MODEL_PATH)
 
 # -------------------------------------------------
-# FINAL FEATURE ORDER (MUST MATCH TRAINING)
+# Load model metrics (saved from notebook)
+# -------------------------------------------------
+METRICS_PATH = os.path.join(BASE_DIR, "model", "metrics.json")
+with open(METRICS_PATH, "r") as f:
+    METRICS = json.load(f)
+
+# -------------------------------------------------
+# FINAL FEATURE ORDER (must match training)
 # -------------------------------------------------
 FEATURE_ORDER = [
     "early_customer",
@@ -79,9 +87,9 @@ def predict():
     streaming_tv = int(form["StreamingTV"])
     streaming_movies = int(form["StreamingMovies"])
 
-    contract = form["Contract"]              # Month-to-month / One year / Two year
-    internet = form["InternetService"]        # DSL / Fiber optic / No
-    payment = form["PaymentMethod"]           # Electronic / Credit card / Mailed
+    contract = form["Contract"]
+    internet = form["InternetService"]
+    payment = form["PaymentMethod"]
 
     # -------------------------
     # Derived Features
@@ -101,7 +109,7 @@ def predict():
     contract_tenure_risk = 1 if (contract == "Month-to-month" and tenure < 12) else 0
 
     # -------------------------
-    # Initialize ALL features with 0
+    # Initialize all features with 0
     # -------------------------
     features = {f: 0 for f in FEATURE_ORDER}
 
@@ -130,7 +138,7 @@ def predict():
     })
 
     # -------------------------
-    # One-Hot Encoded Fields
+    # One-Hot Encoding
     # -------------------------
     if internet == "No":
         features["InternetService_No"] = 1
@@ -145,17 +153,30 @@ def predict():
         features["PaymentMethod_Mailed check"] = 1
 
     # -------------------------
-    # Final Model Input
+    # Final model input
     # -------------------------
     final_input = np.array(
         [features[f] for f in FEATURE_ORDER]
     ).reshape(1, -1)
 
+    # -------------------------
+    # Prediction
+    # -------------------------
     prediction = model.predict(final_input)[0]
+    churn_prob = model.predict_proba(final_input)[0][1]
+    churn_prob_percent = round(churn_prob * 100, 2)
 
     result = "Customer Will Churn ❌" if prediction == 1 else "Customer Will Stay ✅"
 
-    return render_template("index.html", prediction=result)
+    # -------------------------
+    # Render result page
+    # -------------------------
+    return render_template(
+        "result.html",
+        prediction=result,
+        probability=churn_prob_percent,
+        metrics=METRICS
+    )
 
 
 # -------------------------------------------------

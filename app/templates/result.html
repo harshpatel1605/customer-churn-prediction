@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Churn Prediction Result</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="background-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+</div>
+
+<div class="container">
+    <div class="card animate-up">
+
+        <!-- HEADER -->
+        <header style="text-align:center; margin-bottom:30px;">
+            <div class="icon-box">
+                <i class="fas fa-chart-pie"></i>
+            </div>
+            <h1 style="font-size:2.2rem;">Prediction Result</h1>
+            <p class="subtitle">Customer churn risk analysis</p>
+        </header>
+
+        <!-- 🔥 BIG PREDICTION -->
+        <div class="result-container"
+             style="padding:30px; text-align:center; margin-bottom:35px;">
+
+            <div class="result-badge">FINAL PREDICTION</div>
+
+            <div class="result-text"
+                 style="font-size:2.3rem; font-weight:700; margin:10px 0;">
+                {{ prediction }}
+            </div>
+
+            <p style="font-size:1.2rem;">
+                <strong>Churn Probability:</strong> {{ probability }}%
+            </p>
+        </div>
+
+        <!-- ✅ MODEL PERFORMANCE (LABEL – SCORE STYLE) -->
+        <section style="margin-bottom:35px;">
+            <h2 style="text-align:center; font-size:1.6rem; margin-bottom:20px;">
+                <i class="fas fa-chart-line"></i> Model Performance
+            </h2>
+
+            <div style="
+                max-width:420px;
+                margin:0 auto;
+                font-size:1.15rem;
+                line-height:2.2;
+            ">
+                <div><strong>Accuracy</strong> – {{ metrics.accuracy * 100 }}%</div>
+                <div><strong>Precision</strong> – {{ metrics.precision * 100 }}%</div>
+                <div><strong>Recall</strong> – {{ metrics.recall * 100 }}%</div>
+                <div><strong>ROC-AUC</strong> – {{ metrics.roc_auc * 100 }}%</div>
+            </div>
+        </section>
+
+        <!-- NOTE -->
+        <p style="
+            text-align:center;
+            font-size:0.85rem;
+            opacity:0.7;
+            margin-bottom:25px;
+        ">
+            Metrics are calculated on held-out test data during model training.
+        </p>
+
+        <!-- ACTION -->
+        <div style="text-align:center;">
+            <a href="/" class="btn-submit">
+                <i class="fas fa-rotate-left"></i> Analyze Another Customer
+            </a>
+        </div>
+
+    </div>
+
+    <footer class="credits">
+        <p>Built with <i class="fas fa-heart"></i> by <span>Harsh Patel</span></p>
+    </footer>
+</div>
+
+</body>
+</html>
