@@ -1,0 +1,12 @@
+artifacts_root: artifacts
+
+data_ingestion:
+  root_dir: artifacts/data_ingestion
+  raw_data_path: artifacts/data_ingestion/raw/churn_data.csv
+
+  database:
+    type: mysql
+    host: localhost
+    port: 3306
+    database_name: churn_db
+    table_name: customer_churn

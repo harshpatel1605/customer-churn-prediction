@@ -1,6 +1,19 @@
-flask
 numpy
 pandas
 scikit-learn
+xgboost
+lightgbm
+imbalanced-learn>=0.11.0    # versions below 0.11 have Python 3.10 issues
+mlflow
+matplotlib
+seaborn
 joblib
-gunicorn
+jupyter
+ipykernel
+notebook
+fastapi
+uvicorn                     
+pydantic   
+sqlalchemy
+pymysql 
+python-dotenv

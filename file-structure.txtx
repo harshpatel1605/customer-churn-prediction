@@ -1,0 +1,41 @@
+customer_churn_prediction/
+│
+├── data/
+│   ├── raw/
+│   │   └── churn_data.csv
+│   ├── processed/
+│   │   └── churn_cleaned.csv
+│   └── resampled/
+│       └── churn_smote.csv
+│
+├── notebooks/
+│   ├── 01_EDA.ipynb
+│   ├── 02_feature_engineering.ipynb
+│   ├── 03_smote_balancing.ipynb
+│   ├── 04_model_training.ipynb
+│   └── 05_predictions.ipynb            # ✅ added
+│
+├── src/
+│   ├── __init__.py
+│   ├── data_loader.py
+│   ├── feature_engineering.py
+│   ├── balancing.py
+│   ├── train.py
+│   ├── evaluate.py
+│   └── predict.py                      # ✅ added
+│
+├── models/
+│   └── xgb_churn_model.pkl
+│
+├── outputs/
+│   ├── plots/
+│   │   ├── class_distribution.png
+│   │   ├── confusion_matrix.png
+│   │   └── roc_curve.png
+│   └── reports/
+│       ├── classification_report.txt
+│       └── predictions.csv             # ✅ added — final output
+│
+├── requirements.txt
+├── README.md
+└── main.py
