@@ -12,3 +12,9 @@ data_transformation:
   root_dir: artifacts/data_transformation
   input_data_path: artifacts/data_ingestion/raw_data.csv
   transformed_data_path: artifacts/data_transformation/transformed_data.csv
+
+model_training:
+  root_dir: artifacts/training
+  training_data_path: artifacts/data_transformation/transformed_data.csv
+  base_model_path: artifacts/training/model/base_model.pkl
+  tuned_model_path: artifacts/training/model/tuned_model.pkl
