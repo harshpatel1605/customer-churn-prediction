@@ -24,3 +24,14 @@ class ModelTrainingConfig:
     training_data_path: Path
     base_model_path: Path
     tuned_model_path: Path
+
+
+@dataclass(frozen=True)
+class ModelEvaluationConfig:
+    root_dir: Path
+    input_data_path: Path
+    base_model_path: Path
+    tuned_model_path: Path
+    scores_file_path: Path
+    base_cm_path: Path
+    tuned_cm_path: Path
