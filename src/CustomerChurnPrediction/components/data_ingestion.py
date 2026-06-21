@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from CustomerChurnPrediction.utils.logger import logger
 from CustomerChurnPrediction.utils.exception import CustomException
 from CustomerChurnPrediction.entity.config_entity import DataIngestionConfig
-from CustomerChurnPrediction.utils.common import create_directories
+from CustomerChurnPrediction.utils.common import save_data
 from urllib.parse import quote_plus
 
 
@@ -64,11 +64,10 @@ class DataIngestion:
         '''
         Fetch raw data from the configured database/table and save it to disk.
         '''
-        
+
         database_name = self.config.database_info.database_name
         table_name = self.config.database_info.table_name
         df = self.read_sql_data(database_name,table_name)
 
-        create_directories([os.path.dirname(self.config.raw_data_path)]) 
-
-        df.to_csv(self.config.raw_data_path,index  = False)
+        save_data(df,self.config.raw_data_path)
+        

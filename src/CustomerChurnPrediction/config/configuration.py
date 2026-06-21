@@ -1,6 +1,7 @@
 from CustomerChurnPrediction.constants import *
 from CustomerChurnPrediction.utils.common import read_yaml,create_directories
 from CustomerChurnPrediction.entity.config_entity import (DatabaseConfig,DataIngestionConfig) 
+from CustomerChurnPrediction.entity.config_entity import DataTransformationConfig 
 
 class ConfigurationManager:
     def __init__(self,config_filepath = CONFIG_FILE_PATH):
@@ -26,3 +27,16 @@ class ConfigurationManager:
         )
 
         return data_ingestion_config
+    
+    def get_data_transformation_config(self):
+        config = self.config.data_transformation
+
+        create_directories([config.root_dir])
+
+        data_transformation_config = DataTransformationConfig(
+            root_dir=config.root_dir,
+            input_data_path=config.input_data_path,
+            transformed_data_path=config.transformed_data_path
+        )
+
+        return data_transformation_config

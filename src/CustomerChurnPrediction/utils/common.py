@@ -37,6 +37,22 @@ def read_sql_data(database_name: str, table_name: str) -> pd.DataFrame:
 
     except Exception as e:
         raise CustomException(e, sys)
+    
+
+def save_data(df: pd.DataFrame, file_path: str) -> None:
+    """
+    Save a dataframe to CSV, creating the destination directory if needed.
+ 
+    Args:
+        df (pd.DataFrame): Dataframe to save.
+        file_path (str): Full path (including filename) to save the CSV to.
+    """
+    create_directories([os.path.dirname(file_path)])
+ 
+    df.to_csv(file_path, index=False)
+ 
+    logger.info(f"Data saved to {file_path}: {df.shape[0]} rows, {df.shape[1]} columns")
+ 
 
 @ensure_annotations
 def read_yaml(path_to_yaml: Path) -> ConfigBox:
