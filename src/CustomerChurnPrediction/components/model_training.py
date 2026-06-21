@@ -1,4 +1,5 @@
 import os
+import json
 import sys
 import time
 import joblib
@@ -57,6 +58,11 @@ class ModelTraining:
         path = os.path.join(github_dir, filename)
         joblib.dump(model, path)
         logger.info(f"Model saved for GitHub at {path}")
+    
+    @staticmethod
+    def save_best_params(best_params:dict):
+        with open("artifacts/model_training/best_params.json","w") as f:
+            json.dump(best_params, f, indent=4)
 
     def train_base_model(self, X_train, y_train) -> XGBClassifier:
         """Trains the base XGBoost model and saves it to disk."""
@@ -112,6 +118,8 @@ class ModelTraining:
 
         study = optuna.create_study(direction="maximize")
         study.optimize(objective, n_trials=self.n_trials)
+
+        self.save_best_params(study.best_params)
 
         logger.info(f"Best trial: {study.best_trial.number} | Recall: {study.best_value:.4f}")
         logger.info(f"Best params: {study.best_params}")
