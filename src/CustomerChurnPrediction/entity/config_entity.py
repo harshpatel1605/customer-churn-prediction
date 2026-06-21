@@ -16,4 +16,4 @@ class DataIngestionConfig:
 class DataTransformationConfig:
     root_dir:Path
     input_data_path:Path
-    transformed_data_path:Path
+    transformed_data_path:Path 
