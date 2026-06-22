@@ -53,3 +53,5 @@ secrets.yaml
 
 # Setup
 *.egg-info/
+
+guide.md

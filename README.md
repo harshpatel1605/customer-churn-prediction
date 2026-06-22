@@ -186,9 +186,9 @@ Contributions are welcome! If you'd like to improve the project — new models, 
 
 ## 📬 Contact
 
-- **Email**: your.email@gmail.com
-- **LinkedIn**: [yourname](https://linkedin.com/in/yourname)
-- **GitHub**: [yourname](https://github.com/yourname)
+- **Email**: harshpatel16052005.email@gmail.com
+- **LinkedIn**: [Harsh Patel](https://linkedin.com/in/harsh-patel-581352358)
+- **GitHub**: [Harsh Patel](https://github.com/harshpatel1605)
 
 ---
 
