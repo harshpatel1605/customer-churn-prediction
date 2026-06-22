@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Churn Prediction</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: sans-serif; background: #f5f5f5; color: #111; padding: 2rem; }
+    h1 { font-size: 22px; font-weight: 500; margin-bottom: 0.25rem; }
+    p.sub { font-size: 14px; color: #666; margin-bottom: 1rem; }
+    .section-title { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; color: #888; border-bottom: 1px solid #e0e0e0; padding-bottom: 6px; margin: 1.5rem 0 0.75rem; }
+    .field-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+    .field { display: flex; flex-direction: column; gap: 4px; }
+    .field label { font-size: 13px; color: #555; }
+    select, input[type=number] { padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; background: white; width: 100%; }
+    button { margin-top: 1.25rem; width: 100%; padding: 10px; font-size: 15px; border: 1px solid #ccc; border-radius: 8px; background: white; cursor: pointer; }
+    button:hover { background: #f0f0f0; }
+    .result-card { background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 1.25rem; margin-top: 1.5rem; display: none; }
+    .result-card.show { display: block; }
+    .churn { font-size: 22px; font-weight: 500; color: #c0392b; }
+    .safe { font-size: 22px; font-weight: 500; color: #27ae60; }
+    .prob-bg { background: #eee; border-radius: 99px; height: 8px; margin-top: 8px; overflow: hidden; }
+    .prob-bar { height: 8px; border-radius: 99px; transition: width 0.5s; }
+    .stats { display: flex; gap: 12px; margin-top: 1rem; }
+    .stat { background: #f5f5f5; border-radius: 8px; padding: 0.75rem 1rem; flex: 1; }
+    .stat-label { font-size: 12px; color: #888; margin-bottom: 4px; }
+    .stat-val { font-size: 20px; font-weight: 500; }
+    .error { color: #c0392b; font-size: 13px; margin-top: 0.5rem; display: none; }
+    .loading { display: none; font-size: 13px; color: #888; margin-top: 0.75rem; }
+  </style>
+</head>
+<body>
+  <h1>Customer churn prediction</h1>
+  <p class="sub">Fill in customer details to predict churn probability.</p>
+  <div id="errorMsg" class="error"></div>
+
+  <div class="section-title">Personal info</div>
+  <div class="field-grid">
+    <div class="field"><label>Gender</label><select id="gender"><option>Male</option><option>Female</option></select></div>
+    <div class="field"><label>Senior citizen</label><select id="SeniorCitizen"><option value="0">No</option><option value="1">Yes</option></select></div>
+    <div class="field"><label>Partner</label><select id="Partner"><option>Yes</option><option>No</option></select></div>
+    <div class="field"><label>Dependents</label><select id="Dependents"><option>Yes</option><option>No</option></select></div>
+    <div class="field"><label>Tenure (months)</label><input type="number" id="tenure" min="0" max="72" value="12"></div>
+  </div>
+
+  <div class="section-title">Phone service</div>
+  <div class="field-grid">
+    <div class="field"><label>Phone service</label><select id="PhoneService"><option>Yes</option><option>No</option></select></div>
+    <div class="field"><label>Multiple lines</label><select id="MultipleLines"><option>Yes</option><option>No</option><option>No phone service</option></select></div>
+  </div>
+
+  <div class="section-title">Internet service</div>
+  <div class="field-grid">
+    <div class="field"><label>Internet service</label><select id="InternetService"><option>DSL</option><option>Fiber optic</option><option>No</option></select></div>
+    <div class="field"><label>Online security</label><select id="OnlineSecurity"><option>Yes</option><option>No</option><option>No internet service</option></select></div>
+    <div class="field"><label>Online backup</label><select id="OnlineBackup"><option>Yes</option><option>No</option><option>No internet service</option></select></div>
+    <div class="field"><label>Device protection</label><select id="DeviceProtection"><option>Yes</option><option>No</option><option>No internet service</option></select></div>
+    <div class="field"><label>Tech support</label><select id="TechSupport"><option>Yes</option><option>No</option><option>No internet service</option></select></div>
+    <div class="field"><label>Streaming TV</label><select id="StreamingTV"><option>Yes</option><option>No</option><option>No internet service</option></select></div>
+    <div class="field"><label>Streaming movies</label><select id="StreamingMovies"><option>Yes</option><option>No</option><option>No internet service</option></select></div>
+  </div>
+
+  <div class="section-title">Billing</div>
+  <div class="field-grid">
+    <div class="field"><label>Contract</label><select id="Contract"><option>Month-to-month</option><option>One year</option><option>Two year</option></select></div>
+    <div class="field"><label>Paperless billing</label><select id="PaperlessBilling"><option>Yes</option><option>No</option></select></div>
+    <div class="field"><label>Payment method</label><select id="PaymentMethod"><option>Electronic check</option><option>Mailed check</option><option>Bank transfer (automatic)</option><option>Credit card (automatic)</option></select></div>
+    <div class="field"><label>Monthly charges ($)</label><input type="number" id="MonthlyCharges" step="0.01" value="70.00"></div>
+    <div class="field"><label>Total charges ($)</label><input type="number" id="TotalCharges" step="0.01" value="840.00"></div>
+  </div>
+
+  <button id="predictBtn">Predict churn</button>
+  <p class="loading" id="loading">Running prediction...</p>
+
+  <div class="result-card" id="resultCard">
+    <div id="resultLabel"></div>
+    <div style="margin-top:6px; font-size:14px; color:#888;">Churn probability</div>
+    <div class="prob-bg"><div class="prob-bar" id="probBar"></div></div>
+    <div class="stats">
+      <div class="stat"><div class="stat-label">Probability</div><div class="stat-val" id="probVal">—</div></div>
+      <div class="stat"><div class="stat-label">Threshold used</div><div class="stat-val">0.25</div></div>
+      <div class="stat"><div class="stat-label">Decision</div><div class="stat-val" id="decisionVal">—</div></div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('predictBtn').addEventListener('click', async () => {
+      const err = document.getElementById('errorMsg');
+      const loading = document.getElementById('loading');
+      const btn = document.getElementById('predictBtn');
+      err.style.display = 'none';
+
+      const tenure = parseFloat(document.getElementById('tenure').value);
+      const monthly = parseFloat(document.getElementById('MonthlyCharges').value);
+      const total = parseFloat(document.getElementById('TotalCharges').value);
+
+      if (isNaN(tenure) || isNaN(monthly) || isNaN(total)) {
+        err.textContent = 'Please fill in all numeric fields correctly.';
+        err.style.display = 'block';
+        return;
+      }
+
+      btn.disabled = true;
+      loading.style.display = 'block';
+
+      const params = new URLSearchParams({
+        gender: document.getElementById('gender').value,
+        SeniorCitizen: document.getElementById('SeniorCitizen').value,
+        Partner: document.getElementById('Partner').value,
+        Dependents: document.getElementById('Dependents').value,
+        tenure, PhoneService: document.getElementById('PhoneService').value,
+        MultipleLines: document.getElementById('MultipleLines').value,
+        InternetService: document.getElementById('InternetService').value,
+        OnlineSecurity: document.getElementById('OnlineSecurity').value,
+        OnlineBackup: document.getElementById('OnlineBackup').value,
+        DeviceProtection: document.getElementById('DeviceProtection').value,
+        TechSupport: document.getElementById('TechSupport').value,
+        StreamingTV: document.getElementById('StreamingTV').value,
+        StreamingMovies: document.getElementById('StreamingMovies').value,
+        Contract: document.getElementById('Contract').value,
+        PaperlessBilling: document.getElementById('PaperlessBilling').value,
+        PaymentMethod: document.getElementById('PaymentMethod').value,
+        MonthlyCharges: monthly, TotalCharges: total,
+      });
+
+      try {
+        const res = await fetch(`/api/predict?${params.toString()}`, { method: 'POST' });
+        if (!res.ok) throw new Error('Server error');
+        const data = await res.json();
+
+        const prob = data.churn_probability;
+        const pred = data.churn_prediction;
+        const pct = (prob * 100).toFixed(1);
+
+        document.getElementById('resultLabel').innerHTML = pred === 1
+          ? `<span class="churn">Will churn</span>`
+          : `<span class="safe">Will not churn</span>`;
+        document.getElementById('probBar').style.width = pct + '%';
+        document.getElementById('probBar').style.background = prob >= 0.25 ? '#e74c3c' : '#27ae60';
+        document.getElementById('probVal').textContent = pct + '%';
+        document.getElementById('decisionVal').textContent = pred === 1 ? 'Churn' : 'Retain';
+        document.getElementById('resultCard').classList.add('show');
+      } catch (e) {
+        err.textContent = 'Could not connect to prediction server. Make sure FastAPI is running.';
+        err.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        loading.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
