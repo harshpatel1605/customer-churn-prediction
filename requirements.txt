@@ -3,10 +3,8 @@ pandas
 scikit-learn
 xgboost
 lightgbm
-catboost
 dagshub
-ensure==1.0.2 
-python-box==7.2.0  
+python-box==7.2.0
 optuna
 matplotlib
 seaborn
@@ -15,11 +13,13 @@ jupyter
 ipykernel
 notebook
 fastapi
-uvicorn                     
-pydantic   
+uvicorn
+pydantic
 sqlalchemy
-pymysql 
+pymysql
 python-dotenv
+python-multipart
 dvc
+jinja2
 
 -e .
