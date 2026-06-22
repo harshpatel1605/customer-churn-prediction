@@ -29,11 +29,11 @@ class ModelEvaluation:
         """Sets up config and connects MLflow tracking to DagsHub."""
         self.config = config
 
-        dagshub.init(
-            repo_owner=os.getenv("DAGSHUB_REPO_OWNER"),
-            repo_name=os.getenv("DAGSHUB_REPO_NAME"),
-            mlflow=True,
-        )
+        # dagshub.init(
+        #     repo_owner=os.getenv("DAGSHUB_REPO_OWNER"),
+        #     repo_name=os.getenv("DAGSHUB_REPO_NAME"),
+        #     mlflow=True,
+        # )
 
     def get_input_data(self) -> pd.DataFrame:
         """Loads the transformed data used for training."""
@@ -127,8 +127,8 @@ class ModelEvaluation:
             "XGBoost_Tuned", self.config.tuned_cm_path, y_test, tuned_pred
         )
 
-        self.log_to_mlflow("XGBoost_Eval", base_model, base_metrics, base_cm_path)
-        self.log_to_mlflow("XGBoost_Tuned_Eval", tuned_model, tuned_metrics, tuned_cm_path)
+        # self.log_to_mlflow("XGBoost_Eval", base_model, base_metrics, base_cm_path)
+        # self.log_to_mlflow("XGBoost_Tuned_Eval", tuned_model, tuned_metrics, tuned_cm_path)
 
         scores = {
             "base_model": base_metrics,

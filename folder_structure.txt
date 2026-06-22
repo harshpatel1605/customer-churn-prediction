@@ -1,0 +1,100 @@
+.
+├── app.py
+├── artifacts
+│   ├── data_ingestion
+│   │   └── raw_data.csv
+│   ├── data_transformation
+│   │   └── transformed_data.csv
+│   ├── model_evaluation
+│   │   ├── scores.json
+│   │   ├── XGBoost_Tuned.png
+│   │   └── XGBoost.png
+│   └── model_training
+│       ├── base_model.pkl
+│       ├── best_params.json
+│       └── tuned_model.pkl
+├── config
+│   └── config.yaml
+├── Dockerfile
+├── dvc.yaml
+├── logs
+│   ├── 06_22_2026_00_08_33.log
+│   ├── 06_22_2026_00_09_27.log
+│   └── 06_22_2026_00_55_52.log
+├── main.py
+├── model
+│   └── tuned_model.pkl
+├── notebooks
+│   ├── 01_EDA.ipynb
+│   ├── 02_data_transformation.ipynb
+│   ├── 03_model_training.ipynb
+│   ├── data
+│   │   ├── data.csv
+│   │   └── processed_data.csv
+│   ├── logs
+│   │   └── 06_21_2026_15_00_44.log
+│   └── trials.ipynb
+├── README.md
+├── requirements.txt
+├── setup.py
+├── src
+│   ├── CustomerChurnPrediction
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   └── __init__.cpython-310.pyc
+│   │   ├── components
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-310.pyc
+│   │   │   │   ├── data_ingestion.cpython-310.pyc
+│   │   │   │   ├── data_transformation.cpython-310.pyc
+│   │   │   │   ├── model_evaluation.cpython-310.pyc
+│   │   │   │   └── model_training.cpython-310.pyc
+│   │   │   ├── data_ingestion.py
+│   │   │   ├── data_transformation.py
+│   │   │   ├── model_evaluation.py
+│   │   │   └── model_training.py
+│   │   ├── config
+│   │   │   ├── __init_.py
+│   │   │   ├── __pycache__
+│   │   │   │   └── configuration.cpython-310.pyc
+│   │   │   └── configuration.py
+│   │   ├── constants
+│   │   │   ├── __init__.py
+│   │   │   └── __pycache__
+│   │   │       └── __init__.cpython-310.pyc
+│   │   ├── entity
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-310.pyc
+│   │   │   │   └── config_entity.cpython-310.pyc
+│   │   │   └── config_entity.py
+│   │   ├── pipelines
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-310.pyc
+│   │   │   │   ├── stage_01_data_ingestion.cpython-310.pyc
+│   │   │   │   ├── stage_02_data_transformation.cpython-310.pyc
+│   │   │   │   ├── stage_03_model_training.cpython-310.pyc
+│   │   │   │   └── stage_04_model_evaluation.cpython-310.pyc
+│   │   │   ├── stage_01_data_ingestion.py
+│   │   │   ├── stage_02_data_transformation.py
+│   │   │   ├── stage_03_model_training.py
+│   │   │   └── stage_04_model_evaluation.py
+│   │   └── utils
+│   │       ├── __init__.py
+│   │       ├── __pycache__
+│   │       │   ├── __init__.cpython-310.pyc
+│   │       │   ├── common.cpython-310.pyc
+│   │       │   ├── exception.cpython-310.pyc
+│   │       │   └── logger.cpython-310.pyc
+│   │       ├── common.py
+│   │       ├── exception.py
+│   │       └── logger.py
+│   └── CustomerChurnPrediction.egg-info
+│       ├── dependency_links.txt
+│       ├── PKG-INFO
+│       ├── requires.txt
+│       ├── SOURCES.txt
+│       └── top_level.txt
+└── template.py

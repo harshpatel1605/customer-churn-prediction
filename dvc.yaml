@@ -1,0 +1,44 @@
+stages:
+  data_ingestion:
+    cmd: python src/CustomerChurnPrediction/pipelines/stage_01_data_ingestion.py
+    deps:
+      - src/CustomerChurnPrediction/pipelines/stage_01_data_ingestion.py
+      - src/CustomerChurnPrediction/components/data_ingestion.py
+      - config/config.yaml
+    outs:
+      - artifacts/data_ingestion/raw_data.csv
+
+  data_transformation:
+    cmd: python src/CustomerChurnPrediction/pipelines/stage_02_data_transformation.py
+    deps:
+      - src/CustomerChurnPrediction/pipelines/stage_02_data_transformation.py
+      - src/CustomerChurnPrediction/components/data_transformation.py
+      - config/config.yaml
+      - artifacts/data_ingestion/raw_data.csv
+    outs:
+      - artifacts/data_transformation/transformed_data.csv
+
+  model_training:
+    cmd: python src/CustomerChurnPrediction/pipelines/stage_03_model_training.py
+    deps:
+      - src/CustomerChurnPrediction/pipelines/stage_03_model_training.py
+      - src/CustomerChurnPrediction/components/model_training.py
+      - config/config.yaml
+      - artifacts/data_transformation/transformed_data.csv
+    outs:
+      - artifacts/model_training
+
+  model_evaluation:
+    cmd: python src/CustomerChurnPrediction/pipelines/stage_04_model_evaluation.py
+    deps:
+      - src/CustomerChurnPrediction/pipelines/stage_04_model_evaluation.py
+      - src/CustomerChurnPrediction/components/model_evaluation.py
+      - config/config.yaml
+      - artifacts/model_training/tuned_model.pkl
+    outs:
+      - artifacts/model_evaluation/XGBoost.png
+      - artifacts/model_evaluation/XGBoost_Tuned.png
+
+    metrics:
+      - artifacts/model_evaluation/scores.json:
+          cache: false

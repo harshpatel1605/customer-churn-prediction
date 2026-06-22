@@ -1,0 +1,106 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/CustomerChurnPrediction/pipelines/stage_01_data_ingestion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 1d1871b50450c88eaecc83df631383a2
+      size: 1077
+    - path: src/CustomerChurnPrediction/components/data_ingestion.py
+      hash: md5
+      md5: 384046b25ea12bc97959a1a2bb523469
+      size: 2429
+    - path: src/CustomerChurnPrediction/pipelines/stage_01_data_ingestion.py
+      hash: md5
+      md5: 64c0350fda9a907f36c5f16a187599da
+      size: 964
+    outs:
+    - path: artifacts/data_ingestion/raw_data.csv
+      hash: md5
+      md5: 634c8c71e830ed12812df331e6b61cf5
+      size: 970164
+  data_transformation:
+    cmd: python 
+      src/CustomerChurnPrediction/pipelines/stage_02_data_transformation.py
+    deps:
+    - path: artifacts/data_ingestion/raw_data.csv
+      hash: md5
+      md5: 634c8c71e830ed12812df331e6b61cf5
+      size: 970164
+    - path: config/config.yaml
+      hash: md5
+      md5: 1d1871b50450c88eaecc83df631383a2
+      size: 1077
+    - path: src/CustomerChurnPrediction/components/data_transformation.py
+      hash: md5
+      md5: 759176b0665fdd8c4fd9572267845d57
+      size: 4784
+    - path: 
+        src/CustomerChurnPrediction/pipelines/stage_02_data_transformation.py
+      hash: md5
+      md5: e21566429655f49456c6df7ed6958632
+      size: 1011
+    outs:
+    - path: artifacts/data_transformation/transformed_data.csv
+      hash: md5
+      md5: b0e379982c0cf69aa1700f8d3679a997
+      size: 431829
+  model_training:
+    cmd: python src/CustomerChurnPrediction/pipelines/stage_03_model_training.py
+    deps:
+    - path: artifacts/data_transformation/transformed_data.csv
+      hash: md5
+      md5: b0e379982c0cf69aa1700f8d3679a997
+      size: 431829
+    - path: config/config.yaml
+      hash: md5
+      md5: 1d1871b50450c88eaecc83df631383a2
+      size: 1077
+    - path: src/CustomerChurnPrediction/components/model_training.py
+      hash: md5
+      md5: e3e3874c70bdd1d2c69d02d1feb37b20
+      size: 6099
+    - path: src/CustomerChurnPrediction/pipelines/stage_03_model_training.py
+      hash: md5
+      md5: 9666217d61677aff88cf73d73a520929
+      size: 952
+    outs:
+    - path: artifacts/model_training
+      hash: md5
+      md5: ed85af8a75176c24140a92708b7a3a96.dir
+      size: 2066786
+      nfiles: 3
+  model_evaluation:
+    cmd: python 
+      src/CustomerChurnPrediction/pipelines/stage_04_model_evaluation.py
+    deps:
+    - path: artifacts/model_training/tuned_model.pkl
+      hash: md5
+      md5: b80a8d9ab18d7962ef01ee8f35665cfb
+      size: 429256
+    - path: config/config.yaml
+      hash: md5
+      md5: 1d1871b50450c88eaecc83df631383a2
+      size: 1077
+    - path: src/CustomerChurnPrediction/components/model_evaluation.py
+      hash: md5
+      md5: 0550040e9a89afc970efd3a7212178ba
+      size: 5257
+    - path: src/CustomerChurnPrediction/pipelines/stage_04_model_evaluation.py
+      hash: md5
+      md5: 385cbd33aabbd14c85c117f10ac4ee77
+      size: 976
+    outs:
+    - path: artifacts/model_evaluation/XGBoost.png
+      hash: md5
+      md5: 107dc1fdc44e52a526e6cbcefd1fc714
+      size: 17969
+    - path: artifacts/model_evaluation/XGBoost_Tuned.png
+      hash: md5
+      md5: 7e20451e05f358b0a1d5d42c85d84785
+      size: 17573
+    - path: artifacts/model_evaluation/scores.json
+      hash: md5
+      md5: 4c010f5f7066d365a28429cf6ee70568
+      size: 357
