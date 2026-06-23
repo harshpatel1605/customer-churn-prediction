@@ -15,7 +15,7 @@ class PredictionPipeline:
 
     def __init__(self):
         logger.info("Loading tuned model...")
-        self.model = joblib.load(MODEL_PATH)
+        self.model = joblib.load(self.MODEL_PATH)
         logger.info("Model loaded successfully.")
 
 
