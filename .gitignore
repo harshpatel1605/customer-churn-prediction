@@ -55,3 +55,6 @@ secrets.yaml
 *.egg-info/
 
 guide.md
+aws_info.txt
+customer-churn_accessKeys.csv
+cutomer-churn.pem
