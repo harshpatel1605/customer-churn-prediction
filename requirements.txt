@@ -11,6 +11,7 @@ seaborn
 joblib
 jupyter
 ipykernel
+ensure
 notebook
 fastapi
 uvicorn
